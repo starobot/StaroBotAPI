@@ -3,6 +3,32 @@
 
  This project is still quite raw and is only published due to me editing it quite rarely. Made it for myself to make personal bots more easily. 
 
+ ### Implementation to gradle:
+```
+maven {
+         url 'https://jitpack.io'
+}
+
+dependencies {
+	        implementation 'com.github.starobot:StaroBotAPI:main-34fe5da71c-1'
+}
+```
+### implementation to maven:
+```
+<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
+<dependency>
+	    <groupId>com.github.starobot</groupId>
+	    <artifactId>StaroBotAPI</artifactId>
+	    <version>main-34fe5da71c-1</version>
+	</dependency>
+```
+
 Current TODO list:
 1. Rework the Inline handling withing commands
 2. Make a factory for commands.
