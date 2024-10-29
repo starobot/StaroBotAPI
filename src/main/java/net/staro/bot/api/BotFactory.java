@@ -19,8 +19,9 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
  */
 @UtilityClass
 public class BotFactory {
+    private static final String DEFAULT_PREFIX = "/";
     @Getter
-    private final Bot bot = new BotRecord(
+    private static final Bot bot = new BotRecord(
             new EventBusImpl(),
             new KeyboardImpl(UpdateEvent.INSTANCE),
             new ResponseManagerImpl(),
@@ -30,10 +31,20 @@ public class BotFactory {
      * Registers the bot within the provided Telegram API.
      * @param username is the custom username for the bot.
      * @param token is the custom token for the bot.
+     * @throws TelegramApiException if the error occurs upon registering the bot.
+     */
+    public static void registerNewTelegramBot(String username, String token) throws TelegramApiException {
+        new TelegramBotsApi(DefaultBotSession.class).registerBot(initializeBotApi(username, token, DEFAULT_PREFIX));
+    }
+
+    /**
+     * Registers the bot within the provided Telegram API.
+     * @param username is the custom username for the bot.
+     * @param token is the custom token for the bot.
      * @param prefix is the prefix for the commands.
      * @throws TelegramApiException if the error occurs upon registering the bot.
      */
-    public void registerNewTelegramBot(String username, String token, String prefix) throws TelegramApiException {
+    public static void registerNewTelegramBot(String username, String token, String prefix) throws TelegramApiException {
         new TelegramBotsApi(DefaultBotSession.class).registerBot(initializeBotApi(username, token, prefix));
     }
 
@@ -43,7 +54,7 @@ public class BotFactory {
      * @param telegramBot is the bot.
      * @throws TelegramApiException if the error occurs upon registering the bot.
      */
-    public void registerNewTelegramBot(AbstractTelegramBot telegramBot) throws TelegramApiException {
+    public static void registerNewTelegramBot(AbstractTelegramBot telegramBot) throws TelegramApiException {
         new TelegramBotsApi(DefaultBotSession.class).registerBot(telegramBot);
     }
 
@@ -55,7 +66,7 @@ public class BotFactory {
      * @return {@link AbstractTelegramBot} instance.
      * @throws IllegalArgumentException if the username or token is null.
      */
-    private AbstractTelegramBot initializeBotApi(String username, String token, String prefix) {
+    private static AbstractTelegramBot initializeBotApi(String username, String token, String prefix) {
         if (username != null && token != null) {
             bot.commandManager().setPrefix(prefix);
             bot.eventBus().subscribe(new ResponseService());

@@ -36,7 +36,7 @@ public class ResponseService extends SubscriberImpl {
                         String command = parts[0];
                         response = bot.commandManager().execute(bot, command, message);
                     } else if (COMMAND_STATE_MAP.get(message.getFrom().getId()) != null) {
-                        response = bot.commandManager().handleArgument(message);
+                        response = bot.commandManager().handleArgument(bot, message);
                     } else {
                         response = bot.responseManager().getResponseForMessage(bot, message);
                     }

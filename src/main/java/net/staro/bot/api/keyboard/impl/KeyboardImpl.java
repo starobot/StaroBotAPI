@@ -21,6 +21,7 @@ public class KeyboardImpl implements Keyboard {
 
     @Override
     public ReplyKeyboardMarkup getReplyKeyboard() {
+        ROW_LIST.clear();
         ROW_LIST.add(KEYBOARD_ROW);
         return ReplyKeyboardMarkup.builder()
                 .keyboard(ROW_LIST)
@@ -31,7 +32,8 @@ public class KeyboardImpl implements Keyboard {
 
     @Override
     public InlineKeyboardMarkup getInlineKeyboard() {
-        INLINE_BUTTONS.add(INLINE_KEYBOARD_BUTTONS);
+        INLINE_BUTTONS.clear();
+        INLINE_BUTTONS.add(new ArrayList<>(INLINE_KEYBOARD_BUTTONS));
         return InlineKeyboardMarkup.builder()
                 .keyboard(INLINE_BUTTONS)
                 .build();
@@ -39,29 +41,29 @@ public class KeyboardImpl implements Keyboard {
 
     @Override
     public InlineKeyboardButton createInlineButton(String text, String callbackData) {
-        event.setInlineKeyboard(getInlineKeyboard());
         InlineKeyboardButton button = InlineKeyboardButton.builder()
                 .text(text)
                 .callbackData(callbackData)
                 .build();
         INLINE_KEYBOARD_BUTTONS.add(button);
+        event.setInlineKeyboard(getInlineKeyboard());
         return button;
     }
 
     @Override
     public void addReplyButtonToRow(int key, String element) {
-        event.setReplyKeyboard(getReplyKeyboard());
         KeyboardButton keyboardButton = new KeyboardButton(element);
         KEYBOARD_BUTTON_MAP.put(key, keyboardButton);
         KEYBOARD_ROW.add(keyboardButton);
+        event.setReplyKeyboard(getReplyKeyboard());
     }
 
     @Override
     public void addReplyButtonWithNewRow(String element) {
-        event.setReplyKeyboard(getReplyKeyboard());
         KeyboardRow newRow = new KeyboardRow();
         newRow.add(new KeyboardButton(element));
         ROW_LIST.add(newRow);
+        event.setReplyKeyboard(getReplyKeyboard());
     }
 
     @Override
@@ -71,32 +73,32 @@ public class KeyboardImpl implements Keyboard {
 
     @Override
     public void addInlineButtonWithNewRow(InlineKeyboardButton button) {
-        event.setInlineKeyboard(getInlineKeyboard());
         List<InlineKeyboardButton> newRow = new ArrayList<>();
         newRow.add(button);
         INLINE_BUTTONS.add(newRow);
+        event.setInlineKeyboard(getInlineKeyboard());
     }
 
     @Override
     public void deleteAllReplyButtons() {
-        event.setReplyKeyboard(null);
         KEYBOARD_BUTTON_MAP.clear();
         KEYBOARD_ROW.clear();
+        event.setReplyKeyboard(null);
     }
 
     @Override
     public void deleteAllReplyButtonsWithRow(KeyboardRow row) {
-        event.setReplyKeyboard(null);
         KEYBOARD_BUTTON_MAP.clear();
         ROW_LIST.clear();
         row.clear();
+        event.setReplyKeyboard(null);
     }
 
     @Override
     public void deleteAllInlineButtons() {
-        event.setInlineKeyboard(null);
         INLINE_KEYBOARD_BUTTONS.clear();
         INLINE_BUTTONS.clear();
+        event.setInlineKeyboard(null);
     }
 
 }

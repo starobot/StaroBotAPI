@@ -3,10 +3,10 @@ package net.staro.bot.api.command.impl;
 import lombok.Getter;
 import lombok.Setter;
 import net.staro.bot.api.Bot;
+import net.staro.bot.api.command.Builder;
 import net.staro.bot.api.command.Command;
 import net.staro.bot.api.command.CommandManager;
 import net.staro.bot.api.command.CommandState;
-import net.staro.bot.api.events.UpdateEvent;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -17,35 +17,48 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public String execute(Bot bot, String keyword, Message message) {
+        System.out.println("Executed worked");
         String prefix = bot.commandManager().getPrefix();
         keyword = keyword.substring(prefix.length());
         Command command = COMMANDS.get(keyword);
-        if (command != null) {
-            if (command.hasPermisions()) {
-                return "Permission denied for command: " + keyword;
-            }
-
-            COMMAND_STATE_MAP.put(message.getFrom().getId(), new CommandState(command, 1));
-            return command.executeCommand(message);
+        if (command == null) {
+            return "Unknown command: " + keyword;
         }
 
-        return "Unknown command: " + keyword;
+        if (command.hasPermisions()) {
+            return "Permission denied for command: " + keyword;
+        }
+
+        Builder builder = new CommandBuilder();
+        command.build(builder);
+        COMMAND_STATE_MAP.put(message.getFrom().getId(), new CommandState(command, 1));
+        return builder.handle(message, 0);
     }
 
     @Override
-    public String handleArgument(Message message) {
-        long userId = message.getFrom().getId();
+    public String handleArgument(Bot bot, Message message) {
+        System.out.println("Handle argument worked");
+        Long userId = message.getFrom().getId();
         CommandState state = COMMAND_STATE_MAP.get(userId);
         if (state == null) {
             return "No active command for user.";
         }
 
+        Command command = state.getCommand();
         int step = state.getStep();
-        String response = state.getCommand().executeArgument(step, message);
-        if (response != null) {
-            state.setStep(step + 1);
+        Builder builder = new CommandBuilder();
+        command.build(builder);
+        String response = builder.handle(message, step);
+        System.out.println("the current step is  " + step);
+        System.out.println("The max steps amount is " + builder.getMaxSteps());
+        if (step >= builder.getMaxSteps() - 1) {
+            if (command.isLooping()) {
+                state.setStep(1);
+            } else {
+                COMMAND_STATE_MAP.remove(userId);
+            }
         } else {
-            COMMAND_STATE_MAP.remove(userId);
+            state.setStep(step + 1);
         }
 
         return response;
@@ -53,15 +66,28 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public String executeInlineCommand(Bot bot, CallbackQuery callbackQuery) {
-        for (Command command : COMMANDS.values()) {
-            String response = command.executeInlineCommand(callbackQuery);
-            if (response != null) {
-                UpdateEvent.INSTANCE.setDeletable(command.isDeletable());
-                return response;
-            }
+        long userId = callbackQuery.getFrom().getId();
+        CommandState state = COMMAND_STATE_MAP.get(userId);
+        if (state == null) {
+            return "No active command for user.";
         }
 
-        return "Error.";
+        int step = state.getStep();
+        Command command = state.getCommand();
+        Builder builder = new CommandBuilder();
+        command.build(builder);
+        String response = builder.handle(callbackQuery, step);
+        if (step >= builder.getMaxSteps() - 1) {
+            if (command.isLooping()) {
+                state.setStep(1);
+            } else {
+                COMMAND_STATE_MAP.remove(userId);
+            }
+        } else {
+            state.setStep(step + 1);
+        }
+
+        return response;
     }
 
 }

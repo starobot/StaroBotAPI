@@ -32,7 +32,7 @@ public interface CommandManager extends CommandMap {
      * @param message is the message sent by user.
      * @return a bot response as a String.
      */
-    String handleArgument(Message message);
+    String handleArgument(Bot bot, Message message);
 
     /**
      * Executes an inline command based on callback data.
