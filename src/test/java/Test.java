@@ -11,19 +11,9 @@ import static net.staro.bot.api.command.CommandMap.COMMANDS;
 
 public class Test {
     public static void main(String[] args) throws TelegramApiException {
-        /*// testing eventbus here
-        EventBus eventBus = new EventBusImpl();
-        eventBus.subscribe(new TestListener());
-        var timer = System.currentTimeMillis();
-        for (int i = 0; i <= 1000000; i++) {
-            eventBus.post(new Event());
-        }
-
-        System.out.println(System.currentTimeMillis() - timer);
-        // pretty fast, still some work left to do tho...*/
-
-        BotFactory.registerNewTelegramBot("testBot", ""); // put your token here for tests
+        BotFactory.registerNewTelegramBot("testBot", "");
         new TestCommands().initialize(BotFactory.getBot());
+
 
     }
 
@@ -68,6 +58,11 @@ public class Test {
 
         @Override
         public boolean isLooping() {
+            return true;
+        }
+
+        @Override
+        public boolean isDeletable() {
             return true;
         }
 

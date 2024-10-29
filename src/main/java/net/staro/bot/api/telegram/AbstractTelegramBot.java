@@ -49,18 +49,19 @@ public abstract class AbstractTelegramBot extends TelegramLongPollingBot {
 
     @SneakyThrows
     private Integer sendText(Long who, String what, ReplyKeyboardMarkup replyKeyboard, InlineKeyboardMarkup inlineKeyboard) {
-        var messageBuilder = SendMessage.builder()
+        SendMessage.SendMessageBuilder messageBuilder = SendMessage.builder()
                 .chatId(who.toString())
                 .text(what);
         if (inlineKeyboard != null) {
             messageBuilder.replyMarkup(inlineKeyboard);
         }
+
         if (replyKeyboard != null) {
             messageBuilder.replyMarkup(replyKeyboard);
         }
 
         Message sentMessage = execute(messageBuilder.build());
-        return sentMessage.getMessageId(); // Return the message ID for tracking
+        return sentMessage.getMessageId();
     }
 
     @SneakyThrows

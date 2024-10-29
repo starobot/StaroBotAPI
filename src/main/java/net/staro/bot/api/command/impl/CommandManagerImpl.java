@@ -7,6 +7,7 @@ import net.staro.bot.api.command.Builder;
 import net.staro.bot.api.command.Command;
 import net.staro.bot.api.command.CommandManager;
 import net.staro.bot.api.command.CommandState;
+import net.staro.bot.api.events.UpdateEvent;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -17,7 +18,6 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public String execute(Bot bot, String keyword, Message message) {
-        System.out.println("Executed worked");
         String prefix = bot.commandManager().getPrefix();
         keyword = keyword.substring(prefix.length());
         Command command = COMMANDS.get(keyword);
@@ -25,6 +25,7 @@ public class CommandManagerImpl implements CommandManager {
             return "Unknown command: " + keyword;
         }
 
+        UpdateEvent.INSTANCE.setDeletable(command.isDeletable());
         if (command.hasPermisions()) {
             return "Permission denied for command: " + keyword;
         }
@@ -37,7 +38,6 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public String handleArgument(Bot bot, Message message) {
-        System.out.println("Handle argument worked");
         Long userId = message.getFrom().getId();
         CommandState state = COMMAND_STATE_MAP.get(userId);
         if (state == null) {
@@ -49,9 +49,7 @@ public class CommandManagerImpl implements CommandManager {
         Builder builder = new CommandBuilder();
         command.build(builder);
         String response = builder.handle(message, step);
-        System.out.println("the current step is  " + step);
-        System.out.println("The max steps amount is " + builder.getMaxSteps());
-        if (step >= builder.getMaxSteps() - 1) {
+        if (step >= builder.getMaxSteps() - 1 || response == null) {
             if (command.isLooping()) {
                 state.setStep(1);
             } else {
@@ -77,7 +75,7 @@ public class CommandManagerImpl implements CommandManager {
         Builder builder = new CommandBuilder();
         command.build(builder);
         String response = builder.handle(callbackQuery, step);
-        if (step >= builder.getMaxSteps() - 1) {
+        if (step >= builder.getMaxSteps() - 1 || response == null) {
             if (command.isLooping()) {
                 state.setStep(1);
             } else {
