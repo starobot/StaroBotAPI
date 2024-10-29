@@ -30,7 +30,7 @@ dependencies {
 ```
 
 Current TODO list:
-1. <s> Rework the Inline handling withing commands
-2. <s> Make a factory for commands.
+1. <del> Rework the Inline handling withing commands
+2. <del> Make a factory for commands.
 3. Speed up the event handling system
-4. Provide a complete documentation for the API with an example of a bot.
+3. Provide a complete documentation for the API with an example of a bot.
