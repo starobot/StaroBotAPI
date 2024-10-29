@@ -10,7 +10,7 @@ maven {
 }
 
 dependencies {
-	        implementation 'com.github.starobot:StaroBotAPI:main-34fe5da71c-1'
+	        implementation 'com.github.starobot:StaroBotAPI:alpha'
 }
 ```
 ### implementation to maven:
@@ -25,7 +25,7 @@ dependencies {
 <dependency>
 	    <groupId>com.github.starobot</groupId>
 	    <artifactId>StaroBotAPI</artifactId>
-	    <version>main-34fe5da71c-1</version>
+	    <version>alpha</version>
 	</dependency>
 ```
 
