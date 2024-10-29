@@ -1,6 +1,8 @@
 # StaroBotApi
  An API for making Telegram bots easily on java.
 
+[![CodeFactor](https://www.codefactor.io/repository/github/starobot/starobotapi/badge)](https://www.codefactor.io/repository/github/starobot/starobotapi)
+
  This project is still quite raw and is only published due to me editing it quite rarely. Made it for myself to make personal bots more easily. 
 
  ### Implementation to gradle:
