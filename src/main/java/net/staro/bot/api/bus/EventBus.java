@@ -3,7 +3,9 @@ package net.staro.bot.api.bus;
 /**
  * The Event Bus for posting events to the subscribed listeners.
  */
-public interface EventBus {
+@SuppressWarnings("unused")
+public interface EventBus
+{
     /**
      * Distributes an event object to the existing listeners.
      * @param event is an object that can be posted. Usually a class or a record.

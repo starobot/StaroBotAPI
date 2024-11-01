@@ -7,7 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CommandState {
+public class CommandState
+{
     private Command command;
     private int step;
 

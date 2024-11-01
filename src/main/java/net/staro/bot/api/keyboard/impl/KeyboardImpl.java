@@ -16,11 +16,13 @@ import java.util.List;
  * A custom keyboard builder. To be implemented into the onUpdate through {@link net.staro.bot.api.Bot}.
  */
 @RequiredArgsConstructor
-public class KeyboardImpl implements Keyboard {
+public class KeyboardImpl implements Keyboard
+{
     private final UpdateEvent event;
 
     @Override
-    public ReplyKeyboardMarkup getReplyKeyboard() {
+    public ReplyKeyboardMarkup getReplyKeyboard()
+    {
         ROW_LIST.clear();
         ROW_LIST.add(KEYBOARD_ROW);
         return ReplyKeyboardMarkup.builder()
@@ -31,7 +33,8 @@ public class KeyboardImpl implements Keyboard {
     }
 
     @Override
-    public InlineKeyboardMarkup getInlineKeyboard() {
+    public InlineKeyboardMarkup getInlineKeyboard()
+    {
         INLINE_BUTTONS.clear();
         INLINE_BUTTONS.add(new ArrayList<>(INLINE_KEYBOARD_BUTTONS));
         return InlineKeyboardMarkup.builder()
@@ -40,7 +43,8 @@ public class KeyboardImpl implements Keyboard {
     }
 
     @Override
-    public InlineKeyboardButton createInlineButton(String text, String callbackData) {
+    public InlineKeyboardButton createInlineButton(String text, String callbackData)
+    {
         InlineKeyboardButton button = InlineKeyboardButton.builder()
                 .text(text)
                 .callbackData(callbackData)
@@ -51,7 +55,8 @@ public class KeyboardImpl implements Keyboard {
     }
 
     @Override
-    public void addReplyButtonToRow(int key, String element) {
+    public void addReplyButtonToRow(int key, String element)
+    {
         KeyboardButton keyboardButton = new KeyboardButton(element);
         KEYBOARD_BUTTON_MAP.put(key, keyboardButton);
         KEYBOARD_ROW.add(keyboardButton);
@@ -59,7 +64,8 @@ public class KeyboardImpl implements Keyboard {
     }
 
     @Override
-    public void addReplyButtonWithNewRow(String element) {
+    public void addReplyButtonWithNewRow(String element)
+    {
         KeyboardRow newRow = new KeyboardRow();
         newRow.add(new KeyboardButton(element));
         ROW_LIST.add(newRow);
@@ -67,12 +73,14 @@ public class KeyboardImpl implements Keyboard {
     }
 
     @Override
-    public void addInlineButtonToRow(InlineKeyboardButton button) {
+    public void addInlineButtonToRow(InlineKeyboardButton button)
+    {
         INLINE_KEYBOARD_BUTTONS.add(button);
     }
 
     @Override
-    public void addInlineButtonWithNewRow(InlineKeyboardButton button) {
+    public void addInlineButtonWithNewRow(InlineKeyboardButton button)
+    {
         List<InlineKeyboardButton> newRow = new ArrayList<>();
         newRow.add(button);
         INLINE_BUTTONS.add(newRow);
@@ -80,14 +88,16 @@ public class KeyboardImpl implements Keyboard {
     }
 
     @Override
-    public void deleteAllReplyButtons() {
+    public void deleteAllReplyButtons()
+    {
         KEYBOARD_BUTTON_MAP.clear();
         KEYBOARD_ROW.clear();
         event.setReplyKeyboard(null);
     }
 
     @Override
-    public void deleteAllReplyButtonsWithRow(KeyboardRow row) {
+    public void deleteAllReplyButtonsWithRow(KeyboardRow row)
+    {
         KEYBOARD_BUTTON_MAP.clear();
         ROW_LIST.clear();
         row.clear();
@@ -95,7 +105,8 @@ public class KeyboardImpl implements Keyboard {
     }
 
     @Override
-    public void deleteAllInlineButtons() {
+    public void deleteAllInlineButtons()
+    {
         INLINE_KEYBOARD_BUTTONS.clear();
         INLINE_BUTTONS.clear();
         event.setInlineKeyboard(null);

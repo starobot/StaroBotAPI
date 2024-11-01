@@ -5,7 +5,9 @@ import net.staro.bot.api.trait.Initializable;
 /**
  * Registers custom responses. Implement this into your custom ResponseManager to add more responses based on the needed context.
  */
-public interface ResponseRegistry extends ResponseList, Initializable {
+@SuppressWarnings("unused")
+public interface ResponseRegistry extends ResponseList, Initializable
+{
     /**
      * Puts a response into a RESPONSES list.
      * @param response is a response object.

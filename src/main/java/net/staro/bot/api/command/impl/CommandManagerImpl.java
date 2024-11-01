@@ -13,21 +13,26 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Setter
 @Getter
-public class CommandManagerImpl implements CommandManager {
+public class CommandManagerImpl implements CommandManager
+{
     private String prefix;
 
     @Override
-    public String execute(Bot bot, String keyword, Message message) {
+    public String execute(Bot bot, String keyword, Message message)
+    {
         String prefix = bot.commandManager().getPrefix();
         keyword = keyword.substring(prefix.length());
         Command command = COMMANDS.get(keyword);
-        if (command == null) {
+        if (command == null)
+        {
             return "Unknown command: " + keyword;
         }
 
-        UpdateEvent.INSTANCE.setDeletable(command.isDeletable());
-        if (command.hasPermisions()) {
-            return "Permission denied for command: " + keyword;
+        UpdateEvent updateEvent = UpdateEvent.INSTANCE;
+        updateEvent.setDeletable(command.isDeletable());
+        if (command.hasPermisions())
+        {
+            updateEvent.setHasPermissions(command.hasPermisions());
         }
 
         Builder builder = new CommandBuilder();
@@ -37,10 +42,12 @@ public class CommandManagerImpl implements CommandManager {
     }
 
     @Override
-    public String handleArgument(Bot bot, Message message) {
+    public String handleArgument(Bot bot, Message message)
+    {
         Long userId = message.getFrom().getId();
         CommandState state = COMMAND_STATE_MAP.get(userId);
-        if (state == null) {
+        if (state == null)
+        {
             return "No active command for user.";
         }
 
@@ -49,13 +56,17 @@ public class CommandManagerImpl implements CommandManager {
         Builder builder = new CommandBuilder();
         command.build(builder);
         String response = builder.handle(message, step);
-        if (step >= builder.getMaxSteps() - 1 || response == null) {
-            if (command.isLooping()) {
+        if (step >= builder.getMaxSteps() - 1 || response == null)
+        {
+            if (command.isLooping())
+            {
                 state.setStep(1);
-            } else {
+            } else
+            {
                 COMMAND_STATE_MAP.remove(userId);
             }
-        } else {
+        } else
+        {
             state.setStep(step + 1);
         }
 
@@ -66,7 +77,8 @@ public class CommandManagerImpl implements CommandManager {
     public String executeInlineCommand(Bot bot, CallbackQuery callbackQuery) {
         long userId = callbackQuery.getFrom().getId();
         CommandState state = COMMAND_STATE_MAP.get(userId);
-        if (state == null) {
+        if (state == null)
+        {
             return "No active command for user.";
         }
 
@@ -75,13 +87,17 @@ public class CommandManagerImpl implements CommandManager {
         Builder builder = new CommandBuilder();
         command.build(builder);
         String response = builder.handle(callbackQuery, step);
-        if (step >= builder.getMaxSteps() - 1 || response == null) {
-            if (command.isLooping()) {
+        if (step >= builder.getMaxSteps() - 1 || response == null)
+        {
+            if (command.isLooping())
+            {
                 state.setStep(1);
-            } else {
+            } else
+            {
                 COMMAND_STATE_MAP.remove(userId);
             }
-        } else {
+        } else
+        {
             state.setStep(step + 1);
         }
 

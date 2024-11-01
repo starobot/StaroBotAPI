@@ -1,7 +1,6 @@
 import net.staro.bot.api.Bot;
 import net.staro.bot.api.BotFactory;
-import net.staro.bot.api.bus.impl.Listener;
-import net.staro.bot.api.bus.impl.SubscriberImpl;
+import net.staro.bot.api.bus.impl.EventListenerImpl;
 import net.staro.bot.api.command.Builder;
 import net.staro.bot.api.command.CommandRegistry;
 import net.staro.bot.api.command.impl.BotCommand;
@@ -11,10 +10,8 @@ import static net.staro.bot.api.command.CommandMap.COMMANDS;
 
 public class Test {
     public static void main(String[] args) throws TelegramApiException {
-        BotFactory.registerNewTelegramBot("testBot", "");
-        new TestCommands().initialize(BotFactory.getBot());
-
-
+        BotFactory.registerNewTelegramBot("", "");
+        new TestCommands().initialize(BotFactory.BOT);
     }
 
     public static class TestCommands implements CommandRegistry {
@@ -43,11 +40,6 @@ public class Test {
 
                 return commandsList.toString();
             });
-        }
-
-        @Override
-        public boolean hasPermisions() {
-            return false;
         }
     }
 
@@ -81,24 +73,6 @@ public class Test {
                     return "Die";
                 } else {
                     return "Live";
-                }
-            });
-        }
-
-        @Override
-        public boolean hasPermisions() {
-            return false;
-        }
-    }
-
-    public static class Event {}
-
-    public static class TestListener extends SubscriberImpl {
-        public TestListener() {
-            listen(new Listener<Event>() {
-                @Override
-                public void onEvent(Event event) {
-
                 }
             });
         }

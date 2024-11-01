@@ -4,7 +4,8 @@ import net.staro.bot.api.Bot;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-public interface CommandManager extends CommandMap {
+public interface CommandManager extends CommandMap
+{
     /**
      * Gets the current prefix for the bot commands.
      * @return prefix as a String.

@@ -8,7 +8,8 @@ import net.staro.bot.api.response.ResponseManager;
 /**
  * An interface for dependency injection. Allows us to reference managers without creating new objects.
  */
-public interface Bot {
+public interface Bot
+{
     /**
      * A reference to the EventBus.
      * @return eventBus interface.

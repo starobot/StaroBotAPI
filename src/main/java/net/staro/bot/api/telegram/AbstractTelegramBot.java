@@ -20,27 +20,33 @@ import java.util.Map;
  * Here we define our bot username and token.
  */
 @AllArgsConstructor
-public abstract class AbstractTelegramBot extends TelegramLongPollingBot {
+public abstract class AbstractTelegramBot extends TelegramLongPollingBot
+{
     protected final Bot bot;
     private final Map<Long, Integer> lastMessageIdMap = new HashMap<>();
 
     @Override
-    public void onUpdateReceived(Update update) {
-        var event = UpdateEvent.INSTANCE;
+    public void onUpdateReceived(Update update)
+    {
+        UpdateEvent event = UpdateEvent.INSTANCE;
         event.setBot(bot);
         event.setUpdate(update);
         bot.eventBus().post(event);
         Long who;
-        if (update.hasMessage() && update.getMessage().getFrom() != null) {
+        if (update.hasMessage() && update.getMessage().getFrom() != null)
+        {
             who = update.getMessage().getFrom().getId();
-        } else if (update.hasCallbackQuery() && update.getCallbackQuery().getFrom() != null) {
+        } else if (update.hasCallbackQuery() && update.getCallbackQuery().getFrom() != null)
+        {
             who = update.getCallbackQuery().getFrom().getId();
-        } else {
+        } else
+        {
             return;
         }
 
         String response = event.getResponse();
-        if (lastMessageIdMap.containsKey(who) && event.isDeletable()) {
+        if (lastMessageIdMap.containsKey(who) && event.isDeletable())
+        {
             deleteMessage(who, lastMessageIdMap.get(who));
         }
 
@@ -48,15 +54,16 @@ public abstract class AbstractTelegramBot extends TelegramLongPollingBot {
     }
 
     @SneakyThrows
-    private Integer sendText(Long who, String what, ReplyKeyboardMarkup replyKeyboard, InlineKeyboardMarkup inlineKeyboard) {
-        SendMessage.SendMessageBuilder messageBuilder = SendMessage.builder()
-                .chatId(who.toString())
-                .text(what);
-        if (inlineKeyboard != null) {
+    private Integer sendText(Long who, String what, ReplyKeyboardMarkup replyKeyboard, InlineKeyboardMarkup inlineKeyboard)
+    {
+        SendMessage.SendMessageBuilder messageBuilder = SendMessage.builder().chatId(who.toString()).text(what);
+        if (inlineKeyboard != null)
+        {
             messageBuilder.replyMarkup(inlineKeyboard);
         }
 
-        if (replyKeyboard != null) {
+        if (replyKeyboard != null)
+        {
             messageBuilder.replyMarkup(replyKeyboard);
         }
 
@@ -65,7 +72,8 @@ public abstract class AbstractTelegramBot extends TelegramLongPollingBot {
     }
 
     @SneakyThrows
-    private void deleteMessage(Long chatId, Integer messageId) {
+    private void deleteMessage(Long chatId, Integer messageId)
+    {
         DeleteMessage deleteMessage = new DeleteMessage(chatId.toString(), messageId);
         execute(deleteMessage);
     }

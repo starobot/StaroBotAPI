@@ -14,5 +14,5 @@ import net.staro.bot.api.response.ResponseManager;
 public record BotRecord(EventBus eventBus,
                         Keyboard keyboard,
                         ResponseManager responseManager,
-                        CommandManager commandManager) implements Bot {
-}
+                        CommandManager commandManager) implements Bot
+{ }

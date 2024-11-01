@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public interface KeyboardMapsAndRows {
+public interface KeyboardMapsAndRows
+{
     /**
      * A row for keyboardRow for static usage.
      */

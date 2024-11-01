@@ -1,20 +1,36 @@
 package net.staro.bot.api.bus;
 
+import java.lang.reflect.Method;
+
 /**
- * This is an object for a listener withing the {@link EventBus} that can receive E events
- * @param <E> is an event.
+ * This is an object representing and event listener that can receive posted event objects withing the {@link EventBus}.
  */
-public interface EventListener<E> extends Comparable<EventListener<E>> {
+public interface EventListener
+{
     /**
      * The method accepting the Event.
      * @param event represents the Event class.
      */
-    void onEvent(E event);
+    void invoke(Object event);
 
     /**
-     * An integer representing a priority of a listener.
-     * @see Priority
-     * @return priority and an integer value
+     * Gets the instance containing the listener method.
+     *
+     * @return The object instance.
+     */
+    Object getInstance();
+
+    /**
+     * Gets the method associated with this event listener.
+     *
+     * @return The listener method.
+     */
+    Method getMethod();
+
+    /**
+     * Gets the priority of this event listener.
+     *
+     * @return The priority value.
      */
     int getPriority();
 

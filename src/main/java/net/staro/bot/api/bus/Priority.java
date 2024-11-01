@@ -7,8 +7,9 @@ import static java.lang.Integer.MAX_VALUE;
 
 @Getter
 @RequiredArgsConstructor
-public enum Priority {
-    HIGHEST(MAX_VALUE),
+public enum Priority
+{
+    MAX(MAX_VALUE),
     HIGH(3),
     MEDIUM(2),
     LOW(1),

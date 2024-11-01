@@ -8,11 +8,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 /**
  * A keyboard handler to help us use keyboard and buttons for the response usage.
  */
-public interface Keyboard extends KeyboardMapsAndRows {
+@SuppressWarnings("unused")
+public interface Keyboard extends KeyboardMapsAndRows
+{
     ReplyKeyboardMarkup getReplyKeyboard();
 
     InlineKeyboardMarkup getInlineKeyboard();
 
+    @SuppressWarnings("UnusedReturnValue")
     InlineKeyboardButton createInlineButton(String text, String callbackData);
 
     void addReplyButtonToRow(int key, String element);
