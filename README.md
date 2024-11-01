@@ -35,7 +35,7 @@ dependencies {
 Current TODO list:
 1. <del> Rework the Inline handling withing commands
 2. <del> Make a factory for commands.
-3. Speed up the event handling system
+3. <del> Speed up the event handling system
 4. Provide a complete documentation for the API with an example of a bot.
-5. Fix permissions for commands
-6. Investigate event system
+5. <del> Fix permissions for commands
+6. <del> Investigate event system
