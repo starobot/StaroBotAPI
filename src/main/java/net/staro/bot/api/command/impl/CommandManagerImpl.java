@@ -32,7 +32,7 @@ public class CommandManagerImpl implements CommandManager
         updateEvent.setDeletable(command.isDeletable());
         if (command.hasPermisions())
         {
-            updateEvent.setHasPermissions(command.hasPermisions());
+            updateEvent.setWithPermissions(command.hasPermisions());
         }
 
         Builder builder = new CommandBuilder();

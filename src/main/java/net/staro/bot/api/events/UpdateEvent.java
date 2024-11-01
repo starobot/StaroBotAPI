@@ -1,6 +1,7 @@
 package net.staro.bot.api.events;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.staro.bot.api.Bot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -9,8 +10,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import javax.annotation.Nullable;
 
 @SuppressWarnings("NullableProblems")
-@Data
-public class UpdateEvent
+@Getter
+@Setter
+public class UpdateEvent extends CancellableEvent
 {
     public static final UpdateEvent INSTANCE = new UpdateEvent();
 
@@ -38,6 +40,6 @@ public class UpdateEvent
     /**
      * Is true whenever the command has permissions.
      */
-    private boolean hasPermissions;
+    private boolean withPermissions;
 
 }

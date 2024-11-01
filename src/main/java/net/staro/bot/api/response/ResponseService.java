@@ -2,6 +2,7 @@ package net.staro.bot.api.response;
 
 import net.staro.bot.api.Bot;
 import net.staro.bot.api.bus.Listener;
+import net.staro.bot.api.bus.Priority;
 import net.staro.bot.api.events.UpdateEvent;
 import net.staro.bot.api.keyboard.Keyboard;
 import net.staro.bot.api.keyboard.KeyboardMapsAndRows;
@@ -18,9 +19,17 @@ public class ResponseService
 {
     // This method is in fact being used via reflection, but the IDE doesn't know about it.
     @SuppressWarnings("unused")
-    @Listener
+    @Listener(priority = Priority.DEFAULT)
     private void onUpdateReceived(UpdateEvent event)
     {
+        // A useful feature for overriding the updateReceived logic without rewriting the existing managers.
+        // For example, when setting up the permissions, one might make a listener with a high priority and cancel the UpdateEvent
+        //  to disable the upcoming responses from this instance.
+        if (event.isCancelled())
+        {
+            return;
+        }
+
         Bot bot = event.getBot();
         clearButtons(bot.keyboard());
         Update update = event.getUpdate();
