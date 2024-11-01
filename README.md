@@ -13,7 +13,7 @@ maven {
 }
 
 dependencies {
-	        implementation 'com.github.starobot:StaroBotAPI:2.1-SNAPSHOT'
+	        implementation 'com.github.starobot:StaroBotAPI:2.0-beta'
 }
 ```
 ### implementation to maven:
@@ -28,14 +28,14 @@ dependencies {
 <dependency>
 	    <groupId>com.github.starobot</groupId>
 	    <artifactId>StaroBotAPI</artifactId>
-	    <version>2.1-SNAPSHOT</version>
+	    <version>2.0-beta</version>
 	</dependency>
 ```
 
 Current TODO list:
 1. <del> Rework the Inline handling withing commands
 2. <del> Make a factory for commands.
-3. Speed up the event handling system
+3. <del> Speed up the event handling system
 4. Provide a complete documentation for the API with an example of a bot.
-5. Fix permissions for commands
-6. Investigate event system
+5. <del> Fix permissions for commands
+6. <del> Investigate event system
