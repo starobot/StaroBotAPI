@@ -36,7 +36,7 @@ public class BotFactory
      */
     public static void registerNewTelegramBot(String username, String token) throws TelegramApiException
     {
-        new TelegramBotsApi(DefaultBotSession.class).registerBot(initializeBotApi(username, token, DEFAULT_PREFIX));
+        registerNewTelegramBot(username, token, DEFAULT_PREFIX);
     }
 
     /**
@@ -48,7 +48,9 @@ public class BotFactory
      */
     public static void registerNewTelegramBot(String username, String token, String prefix) throws TelegramApiException
     {
-        new TelegramBotsApi(DefaultBotSession.class).registerBot(initializeBotApi(username, token, prefix));
+        LongPollingBot telegramBot = initializeBotApi(username, token, prefix);
+        BOT.eventBus().subscribe(telegramBot);
+        new TelegramBotsApi(DefaultBotSession.class).registerBot(telegramBot);
     }
 
     /**

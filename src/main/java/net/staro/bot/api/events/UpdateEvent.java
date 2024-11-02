@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 @SuppressWarnings("NullableProblems")
 @Getter
@@ -41,5 +42,6 @@ public class UpdateEvent extends CancellableEvent
      * Is true whenever the command has permissions.
      */
     private boolean withPermissions;
+    private Consumer<UpdateEvent> executor;
 
 }
